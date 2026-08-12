@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dr5dwoke7r6cy"]
+
+[ext_resource type="Script" uid="uid://bekupmprf8xf3" path="res://game/scene/player.gd" id="1_33lhc"]
+[ext_resource type="PackedScene" uid="uid://vg3o6bmbuj0n" path="res://game/scene/view_model.tscn" id="2_aouss"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_aouss"]
+radius = 0.35
+
+[node name="Player" type="CharacterBody3D" unique_id=2032205518]
+script = ExtResource("1_33lhc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=387375683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_aouss")
+
+[node name="head" type="Node3D" parent="." unique_id=539601073]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="Camera3D" type="Camera3D" parent="head" unique_id=1274231974]
+cull_mask = 1048574
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="head/Camera3D" unique_id=618803920]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="head/Camera3D/SubViewportContainer" unique_id=680086105]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="view_model_camera" parent="head/Camera3D/SubViewportContainer/SubViewport" unique_id=154956388 instance=ExtResource("2_aouss")]
+cull_mask = 1047553
