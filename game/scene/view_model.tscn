@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cbuelr5lshxmm" path="res://game/assets/character/tools/low_poly_hoe.glb" id="1_4lhhe"]
 [ext_resource type="Script" uid="uid://dm30jx2lt3udu" path="res://game/scene/view_model.gd" id="1_rrgp2"]
+[ext_resource type="PackedScene" uid="uid://tk3yshodjchq" path="res://game/assets/mesh/plants/csapling.glb" id="3_4yyhe"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g3wqp"]
 resource_name = "Material.001"
@@ -692,10 +693,10 @@ tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
 "update": 0,
-"values": [Vector3(0, -0.0915125, 0)]
+"values": []
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -704,42 +705,38 @@ tracks/1/path = NodePath(".:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.03678024, -0.03575027)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_5b7aj"]
-resource_name = "dig"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.17, 0.45, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, -0.0915125, 0), Vector3(0, -0.0010945201, 0), Vector3(0, 0.015679076, 0), Vector3(0, -0.0915125, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.17, 0.45, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.8118225, 0, 0), Vector3(-0.65416485, 0, 0), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_kdytt"]
-resource_name = "x"
+resource_name = "up_c"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -748,10 +745,10 @@ tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.03333333, 0.39999998),
+"times": PackedFloat32Array(0.0009999999, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, -0.0915125, 0), Vector3(0, -0.2854555, 0)]
+"values": [Vector3(0, -0.20645216, -0.03575027), Vector3(0, -0.03678024, -0.03575027)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -760,46 +757,16 @@ tracks/1/path = NodePath(".:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.03333333, 0.39999998),
+"times": PackedFloat32Array(0.0009999999, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(-1.0870434, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_4yyhe"]
-resource_name = "y"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, -0.2854555, 0), Vector3(0, -0.0915125, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-1.0870434, 0, 0), Vector3(0, 0, 0)]
+"values": [Vector3(-0.4575904, 0, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5b7aj"]
 _data = {
 &"RESET": SubResource("Animation_rrgp2"),
-&"dig": SubResource("Animation_5b7aj"),
-&"x": SubResource("Animation_kdytt"),
-&"y": SubResource("Animation_4yyhe")
+&"up_c": SubResource("Animation_kdytt")
 }
 
 [node name="view_model_camera" type="Camera3D" unique_id=154956388]
@@ -808,7 +775,8 @@ script = ExtResource("1_rrgp2")
 [node name="fps_rig" type="Node3D" parent="." unique_id=1156154220]
 
 [node name="hoe" type="Node3D" parent="fps_rig" unique_id=342523406]
-transform = Transform3D(1, 0, 0, 0, 0.99999964, 0, 0, 0, 0.99999964, 0, -0.0915125, 0)
+transform = Transform3D(1, 0, 0, 0, 0.99999964, 0, 0, 0, 0.99999964, 0, -0.03678024, -0.03575027)
+visible = false
 
 [node name="Hoe" parent="fps_rig/hoe" unique_id=1387900275 instance=ExtResource("1_4lhhe")]
 transform = Transform3D(-0.26591513, -0.1996475, 0.4994297, -0.25741827, 0.5364222, 0.077376135, -0.47225523, -0.17997809, -0.3233928, 0.31455564, -0.7208362, 0.20141411)
@@ -957,3 +925,155 @@ mesh = SubResource("ArrayMesh_6oi6r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="fps_rig/hoe" unique_id=1000670692]
 libraries/ = SubResource("AnimationLibrary_5b7aj")
+
+[node name="c" type="Node3D" parent="fps_rig" unique_id=41444697]
+transform = Transform3D(1, 0, 0, 0, 0.9999995, 0, 0, 0, 0.9999995, 0, -0.03678024, -0.03575027)
+
+[node name="left_hand" type="Node3D" parent="fps_rig/c" unique_id=597272265]
+transform = Transform3D(-0.02640366, -0.09049526, -0.0042580892, 0.050676942, -0.03313495, -0.028116541, 0.026604094, -0.026696255, 0.04933191, -0.3688211, -0.29112044, -0.36419782)
+visible = false
+
+[node name="hand" type="MeshInstance3D" parent="fps_rig/c/left_hand" unique_id=1531008497]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9167175)
+mesh = SubResource("ArrayMesh_h7bsm")
+
+[node name="arm_lower" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand" unique_id=17695678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.11885368, 0.0011925697)
+mesh = SubResource("ArrayMesh_qtojr")
+
+[node name="index_0" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand" unique_id=481359484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6355153, 0, -1.8432965)
+mesh = SubResource("ArrayMesh_ajccy")
+
+[node name="index_1" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/index_0" unique_id=6527177]
+transform = Transform3D(0.5245268, 0.43484434, -0.73197186, 0.83574134, -0.42707294, 0.34517515, -0.16250786, -0.7927925, -0.58742833, 0, 1.1920929e-07, -0.52054167)
+mesh = SubResource("ArrayMesh_ys4ui")
+
+[node name="index_2" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/index_0/index_1" unique_id=677332233]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.49683595)
+mesh = SubResource("ArrayMesh_ylaow")
+
+[node name="middle_0" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand" unique_id=1235866532]
+transform = Transform3D(0.9113841, -0.10336304, -0.39836586, 0.34016758, 0.73403025, 0.58778036, 0.23165798, -0.6712049, 0.70414436, 0.21942234, 5.9604645e-08, -1.9636669)
+mesh = SubResource("ArrayMesh_0ix33")
+
+[node name="middle_1" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/middle_0" unique_id=1773905191]
+transform = Transform3D(0.6979369, 0.10488418, -0.7084375, 0.7023054, 0.093395755, 0.70572275, 0.14018413, -0.9900893, -0.0084763765, -2.3841858e-07, 2.3841858e-07, -0.59544945)
+mesh = SubResource("ArrayMesh_qaif8")
+
+[node name="middle_2" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/middle_0/middle_1" unique_id=1195283397]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5765768)
+mesh = SubResource("ArrayMesh_wbei6")
+
+[node name="pinky_0" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand" unique_id=1868871080]
+transform = Transform3D(0.65637773, 0.1690591, -0.73524666, 0.7491872, -0.031338908, 0.6616167, 0.08881046, -0.9851077, -0.14722705, -0.6369157, 5.9604645e-08, -1.8759394)
+mesh = SubResource("ArrayMesh_40yej")
+
+[node name="pinky_1" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/pinky_0" unique_id=904911157]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5086312)
+mesh = SubResource("ArrayMesh_bvmsq")
+
+[node name="pinky_2" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/pinky_0/pinky_1" unique_id=2123263161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.48415732)
+mesh = SubResource("ArrayMesh_neh6l")
+
+[node name="ring_0" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand" unique_id=1460729441]
+transform = Transform3D(0.6260391, 0.22079033, -0.74788165, 0.77852845, -0.12239654, 0.61555874, 0.044371165, -0.96761096, -0.2485165, -0.22161007, 5.9604645e-08, -1.9495697)
+mesh = SubResource("ArrayMesh_2xdnk")
+
+[node name="ring_1" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/ring_0" unique_id=1089592140]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5784105)
+mesh = SubResource("ArrayMesh_sw7u3")
+
+[node name="ring_2" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/ring_0/ring_1" unique_id=1787139668]
+transform = Transform3D(0.89521563, -0.096833244, -0.4349854, 0.37684363, 0.6855031, 0.6229561, 0.23786092, -0.72160167, 0.650164, -2.3841858e-07, 0, -0.5584388)
+mesh = SubResource("ArrayMesh_gj1mv")
+
+[node name="thumb_0" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand" unique_id=1662348042]
+transform = Transform3D(1.1986741, 0, 0, 0, 1.1986741, 0, 0, 0, 1.1986741, 0.71162975, -0.053870723, -0.36542696)
+mesh = SubResource("ArrayMesh_82hyx")
+
+[node name="thumb_1" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/thumb_0" unique_id=779648493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41884798, 0, -0.5414748)
+mesh = SubResource("ArrayMesh_0uo7v")
+
+[node name="thumb_2" type="MeshInstance3D" parent="fps_rig/c/left_hand/hand/thumb_0/thumb_1" unique_id=1156194387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28644383, 0, -0.39743486)
+mesh = SubResource("ArrayMesh_6oi6r")
+
+[node name="right_hand" type="Node3D" parent="fps_rig/c" unique_id=234235014]
+transform = Transform3D(0.0017458126, -0.09615029, 0.0155675495, 0.06265597, 0.0055371127, 0.0053543216, -0.006653115, 0.026915925, 0.054509554, 0.2312071, -0.15957522, -0.34653452)
+
+[node name="hand" type="MeshInstance3D" parent="fps_rig/c/right_hand" unique_id=1201480294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9167175)
+mesh = SubResource("ArrayMesh_h7bsm")
+
+[node name="arm_lower" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand" unique_id=578552367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.11885368, 0.0011925697)
+mesh = SubResource("ArrayMesh_qtojr")
+
+[node name="index_0" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand" unique_id=247592086]
+transform = Transform3D(0.44966665, -0.6054125, -0.6567159, -0.02516023, 0.726365, -0.6868477, 0.89284277, 0.32537553, 0.31138894, 0.6355159, -3.5762787e-06, -1.843298)
+mesh = SubResource("ArrayMesh_ajccy")
+
+[node name="index_1" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/index_0" unique_id=71086652]
+transform = Transform3D(0.33236277, -0.57258046, -0.74945736, -0.6420809, 0.44469076, -0.62448543, 0.690845, 0.688768, -0.21984437, 0, -3.5762787e-07, -0.52054214)
+mesh = SubResource("ArrayMesh_ys4ui")
+
+[node name="index_2" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/index_0/index_1" unique_id=249420288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.49683595)
+mesh = SubResource("ArrayMesh_ylaow")
+
+[node name="middle_0" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand" unique_id=1072837197]
+transform = Transform3D(0.9953595, -0.008854382, 0.09581636, 0.0004121177, 0.9961404, 0.08777349, -0.09622374, -0.087326705, 0.9915215, 0.21942234, 5.9604645e-08, -1.9636669)
+mesh = SubResource("ArrayMesh_0ix33")
+
+[node name="middle_1" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/middle_0" unique_id=109196253]
+transform = Transform3D(0.13510464, -0.7578, -0.6383461, -0.8157415, 0.28062105, -0.5057839, 0.56241643, 0.5890593, -0.58025575, 4.7683716e-07, 0, -0.5954485)
+mesh = SubResource("ArrayMesh_qaif8")
+
+[node name="middle_2" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/middle_0/middle_1" unique_id=1495803309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5765768)
+mesh = SubResource("ArrayMesh_wbei6")
+
+[node name="pinky_0" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand" unique_id=936593502]
+transform = Transform3D(0.70655996, -0.23535219, -0.66736937, -0.29851577, 0.75593036, -0.58262944, 0.6416082, 0.610883, 0.463854, -0.63691497, 5.9604645e-08, -1.8759384)
+mesh = SubResource("ArrayMesh_40yej")
+
+[node name="pinky_1" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/pinky_0" unique_id=23508040]
+transform = Transform3D(0.7585527, -0.14650089, -0.63492984, -0.55275387, 0.37131, -0.74605113, 0.34505296, 0.9168787, 0.20067918, -4.7683716e-07, -4.7683716e-07, -0.5086312)
+mesh = SubResource("ArrayMesh_bvmsq")
+
+[node name="pinky_2" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/pinky_0/pinky_1" unique_id=2044919564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.48415732)
+mesh = SubResource("ArrayMesh_neh6l")
+
+[node name="ring_0" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand" unique_id=1235473714]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2216101, 0, -1.9495702)
+mesh = SubResource("ArrayMesh_2xdnk")
+
+[node name="ring_1" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/ring_0" unique_id=1701168943]
+transform = Transform3D(0.15052202, -0.74308115, -0.6520531, -0.80241084, 0.29344428, -0.5196411, 0.577477, 0.601432, -0.5520866, -2.3841858e-07, 0, -0.57841015)
+mesh = SubResource("ArrayMesh_sw7u3")
+
+[node name="ring_2" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/ring_0/ring_1" unique_id=317085427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.55843866)
+mesh = SubResource("ArrayMesh_gj1mv")
+
+[node name="thumb_0" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand" unique_id=554658787]
+transform = Transform3D(1.1603206, -0.27684417, -0.11760777, 0.24246705, 1.13823, -0.28716105, 0.17799962, 0.25418305, 1.1578104, 0.7116294, -0.05387044, -0.36542702)
+mesh = SubResource("ArrayMesh_82hyx")
+
+[node name="thumb_1" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/thumb_0" unique_id=1414283214]
+transform = Transform3D(0.31746167, -0.91610974, 0.24486992, 0.8917702, 0.37622443, 0.25139874, -0.32243508, 0.13855803, 0.9363957, 0.4188485, -7.1525574e-07, -0.54147434)
+mesh = SubResource("ArrayMesh_0uo7v")
+
+[node name="thumb_2" type="MeshInstance3D" parent="fps_rig/c/right_hand/hand/thumb_0/thumb_1" unique_id=164393279]
+transform = Transform3D(-0.23423235, -0.70657974, 0.6677426, 0.9435036, -0.33081186, -0.019087955, 0.2343843, 0.6255468, 0.74414736, 0.2864437, -2.3841858e-07, -0.3974347)
+mesh = SubResource("ArrayMesh_6oi6r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="fps_rig/c" unique_id=1934664975]
+libraries/ = SubResource("AnimationLibrary_5b7aj")
+
+[node name="csapling" parent="fps_rig/c" unique_id=16283055 instance=ExtResource("3_4yyhe")]
+transform = Transform3D(0.071376495, 0.033858467, 0, -0.033858467, 0.071376495, 0, 0, 0, 0.07900001, 0.21794069, -0.092967644, -0.4138723)

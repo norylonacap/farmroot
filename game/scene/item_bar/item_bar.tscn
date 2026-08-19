@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://by7mkyg56ijnv"]
+
+[ext_resource type="Script" uid="uid://b2f6cchucp5dr" path="res://game/scene/item_bar/item_bar.gd" id="1_pmfnr"]
+[ext_resource type="PackedScene" uid="uid://35ftngxga1hk" path="res://game/scene/item_bar/slot.tscn" id="2_opcdd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y010p"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.74138474, 0.7413847, 0.74138457, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="ItemBar" type="Control" unique_id=1772325645]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pmfnr")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2100324604]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 100
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=1183420145]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_y010p")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer" unique_id=398884680]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="slotContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer" unique_id=1431347010]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Slot" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=2010477650 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot2" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=517555808 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot3" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=901096773 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot4" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=387102949 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot5" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=2006367003 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot6" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=1922860708 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot7" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=1682309870 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot8" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=669379788 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot9" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=1772133654 instance=ExtResource("2_opcdd")]
+layout_mode = 2
+
+[node name="Slot10" parent="MarginContainer/PanelContainer/MarginContainer/slotContainer" unique_id=1987771648 instance=ExtResource("2_opcdd")]
+layout_mode = 2

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bekupmprf8xf3" path="res://game/scene/player.gd" id="1_33lhc"]
 [ext_resource type="PackedScene" uid="uid://vg3o6bmbuj0n" path="res://game/scene/view_model.tscn" id="2_aouss"]
+[ext_resource type="PackedScene" uid="uid://by7mkyg56ijnv" path="res://game/scene/item_bar/item_bar.tscn" id="3_pm1tv"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_aouss"]
 radius = 0.35
@@ -33,3 +34,11 @@ render_target_update_mode = 4
 
 [node name="view_model_camera" parent="head/Camera3D/SubViewportContainer/SubViewport" unique_id=154956388 instance=ExtResource("2_aouss")]
 cull_mask = 1047553
+
+[node name="RayCast3D" type="RayCast3D" parent="head/Camera3D" unique_id=1211418727]
+transform = Transform3D(-1.3, 0, -3.019916e-07, 0, 1.3, 0, 1.9629454e-07, 0, -2, 0, 0, 0)
+target_position = Vector3(0, 0, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1601325291]
+
+[node name="ItemBar" parent="CanvasLayer" unique_id=1772325645 instance=ExtResource("3_pm1tv")]

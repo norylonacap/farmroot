@@ -10,6 +10,9 @@ var mouse_sense = 0.1
 
 @onready var head = $head
 @onready var camera = $head/Camera3D
+@onready var ray_cast_3d: RayCast3D = $head/Camera3D/RayCast3D
+
+var lastRaycastCollision
 
 func _ready():
 	#hides the cursor
@@ -34,6 +37,9 @@ func _physics_process(delta: float) -> void:
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		
+	if ray_cast_3d.is_colliding():
+		_on_raycast_collision()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -49,3 +55,14 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+func _on_raycast_collision():
+	var collider = ray_cast_3d.get_collider()
+	
+	if lastRaycastCollision and lastRaycastCollision.has_method("set_selection"):
+		lastRaycastCollision.set_selection(false)
+	
+	if collider.has_method("set_selection"):
+		collider.set_selection(true)
+		
+	lastRaycastCollision = collider
