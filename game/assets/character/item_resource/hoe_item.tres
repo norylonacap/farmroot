@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ITEM_BAR_ITEM" format=3 uid="uid://dsqol87cngxaw"]
+
+[ext_resource type="Script" uid="uid://dla6kqdm3ftxn" path="res://game/assets/character/item_resource/item_resource.gd" id="1_ho2k3"]
+[ext_resource type="PackedScene" uid="uid://n0dcqbk1ldn6" path="res://game/scene/tools/hoe.tscn" id="2_hoe_scene"]
+
+[resource]
+script = ExtResource("1_ho2k3")
+toolScene = ExtResource("2_hoe_scene")

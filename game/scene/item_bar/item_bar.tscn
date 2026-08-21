@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b2f6cchucp5dr" path="res://game/scene/item_bar/item_bar.gd" id="1_pmfnr"]
 [ext_resource type="PackedScene" uid="uid://35ftngxga1hk" path="res://game/scene/item_bar/slot.tscn" id="2_opcdd"]
+[ext_resource type="Resource" uid="uid://dsqol87cngxaw" path="res://game/assets/character/item_resource/hoe_item.tres" id="3_hoe_item"]
+[ext_resource type="Resource" uid="uid://b5uqo87cngxaw" path="res://game/assets/character/item_resource/c_item.tres" id="4_c_item"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y010p"]
 content_margin_left = 0.0
@@ -28,6 +30,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pmfnr")
+itemBarInventory = Array[Resource]([ExtResource("3_hoe_item"), ExtResource("4_c_item"), null, null, null, null, null, null, null, null])
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2100324604]
 layout_mode = 1
