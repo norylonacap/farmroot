@@ -1,0 +1,99 @@
+[gd_scene load_steps=14 format=3 uid="uid://farming_test_scene_001"]
+
+[ext_resource type="Script" path="res://scripts/farming_game_manager.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/simple_player_controller.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/player_interaction.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/inventory.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/planting_manager.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/soil_area.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/farming_ui.gd" id="7"]
+[ext_resource type="Resource" uid="uid://potato_seed_001" path="res://resources/seeds/potato_seed.tres" id="8"]
+[ext_resource type="Resource" uid="uid://carrot_seed_001" path="res://resources/seeds/carrot_seed.tres" id="9"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.5
+height = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(50, 0.5, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+albedo_color = Color(0.3, 0.6, 0.3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(10, 0.2, 10)
+
+[node name="FarmingTestScene" type="Node3D"]
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("1")
+available_seeds = Array[Resource("res://scripts/seed_data.gd")]([ExtResource("8"), ExtResource("9")])
+starting_potato_seeds = 10
+starting_carrot_seeds = 10
+inventory = NodePath("../Player/Inventory")
+planting_manager = NodePath("../PlantingManager")
+player_interaction = NodePath("../Player/PlayerInteraction")
+farming_ui = NodePath("../FarmingUI")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_1")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxMesh_1")
+
+[node name="SoilArea" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+script = ExtResource("6")
+soil_size = Vector2(10, 10)
+grid_spacing = 1.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SoilArea"]
+shape = SubResource("BoxShape3D_1")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5)
+script = ExtResource("2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="Head" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/Head"]
+
+[node name="PlayerInteraction" type="Node3D" parent="Player"]
+script = ExtResource("3")
+camera = NodePath("../Head/Camera3D")
+inventory = NodePath("../Inventory")
+planting_manager = NodePath("../../PlantingManager")
+max_interaction_distance = 5.0
+plant_action = "plant"
+interact_action = "interact"
+next_seed_action = "next_seed"
+prev_seed_action = "previous_seed"
+
+[node name="Inventory" type="Node" parent="Player"]
+script = ExtResource("4")
+
+[node name="PlantingManager" type="Node" parent="."]
+script = ExtResource("5")
+plants_container = NodePath("Plants")
+inventory = NodePath("../Player/Inventory")
+
+[node name="Plants" type="Node3D" parent="PlantingManager"]
+
+[node name="FarmingUI" type="CanvasLayer" parent="."]
+script = ExtResource("7")
+inventory = NodePath("../Player/Inventory")
+player_interaction = NodePath("../Player/PlayerInteraction")

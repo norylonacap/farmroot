@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqm8x3yh1q8r3"]
+
+[ext_resource type="Script" path="res://game/scene/plants/plant_scene.gd" id="1_plant"]
+
+[node name="PlantScene" type="Node3D"]
+script = ExtResource("1_plant")
+
+[node name="model" type="Node3D" parent="."]

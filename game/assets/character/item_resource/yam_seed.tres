@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ITEM_BAR_ITEM" load_steps=3 format=3 uid="uid://yam_seed_res"]
+
+[ext_resource type="Script" path="res://game/assets/character/item_resource/item_resource.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://carrot_plant_res" path="res://game/scene/plants/carrot_resource.tres" id="2_plant"]
+
+[resource]
+script = ExtResource("1_script")
+itemType = 4
+plantResource = ExtResource("2_plant")

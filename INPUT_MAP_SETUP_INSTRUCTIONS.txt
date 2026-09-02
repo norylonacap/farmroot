@@ -1,0 +1,78 @@
+========================================
+FARMING SYSTEM - INPUT MAP SETUP
+========================================
+
+IMPORTANT: You MUST configure these input actions before running the game!
+
+Go to: Project → Project Settings → Input Map
+
+Then add these 8 actions:
+
+========================================
+
+1. ACTION: move_forward
+   KEY: W
+   
+2. ACTION: move_backward
+   KEY: S
+   
+3. ACTION: move_left
+   KEY: A
+   
+4. ACTION: move_right
+   KEY: D
+   
+5. ACTION: plant
+   KEY: Mouse Button Left (Button Index 1)
+   
+6. ACTION: interact
+   KEY: E
+   
+7. ACTION: next_seed
+   KEY: E (or Mouse Wheel Up if preferred)
+   
+8. ACTION: previous_seed
+   KEY: Q (or Mouse Wheel Down if preferred)
+
+========================================
+
+HOW TO ADD AN INPUT ACTION:
+
+1. Open Project → Project Settings
+2. Click on "Input Map" tab
+3. Type the action name (e.g., "move_forward") in the text field at the top
+4. Click the "Add" button
+5. Click the "+" button next to the newly created action
+6. Press the key you want to bind (e.g., press W)
+7. Click "OK"
+8. Repeat for all 8 actions
+
+========================================
+
+NOTES:
+
+- The game will NOT work without these input actions
+- You can change the keys to your preference
+- Make sure to spell action names exactly as shown (case-sensitive)
+- For mouse buttons, select "Mouse Button Index" in the binding dialog
+
+========================================
+
+VERIFICATION:
+
+After adding all actions, you should see them listed in the Input Map:
+
+✓ move_forward (W)
+✓ move_backward (S)
+✓ move_left (A)
+✓ move_right (D)
+✓ plant (Mouse Button 1)
+✓ interact (E)
+✓ next_seed (E)
+✓ previous_seed (Q)
+
+========================================
+
+Once complete, you can run: scenes/farming_test_scene.tscn
+
+========================================

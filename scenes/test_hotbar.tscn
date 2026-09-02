@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://c8yv5vwjbp73h"]
+
+[ext_resource type="Script" path="res://scripts/inventory.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://dny7a3yxdgwji" path="res://scenes/ui/hotbar.tscn" id="2"]
+
+[node name="TestHotbar" type="Node"]
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hotbar" parent="CanvasLayer" instance=ExtResource("2")]
+inventory = NodePath("../../Inventory")
+
+[node name="TestController" type="Node" parent="."]
+script = SubResource("GDScript_test")
+
+[sub_resource type="GDScript" id="GDScript_test"]
+script/source = "extends Node
+
+## Test controller for adding items to the hotbar
+## Press T to add test items
+
+@onready var inventory: Inventory = $\"../Inventory\"
+@onready var hotbar: Hotbar = $\"../CanvasLayer/Hotbar\"
+
+# Preload test items
+var stone_item: ItemData = preload(\"res://resources/items/stone.tres\")
+var wood_item: ItemData = preload(\"res://resources/items/wood.tres\")
+var grass_item: ItemData = preload(\"res://resources/items/grass.tres\")
+var potato_item: ItemData = preload(\"res://resources/items/potato.tres\")
+var water_item: ItemData = preload(\"res://resources/items/water.tres\")
+
+var test_items: Array[ItemData] = []
+var current_test_index: int = 0
+
+func _ready() -> void:
+	# Setup test items
+	test_items = [stone_item, wood_item, grass_item, potato_item, water_item]
+	
+	# Add some starting items
+	inventory.add_item(stone_item, 32)
+	inventory.add_item(wood_item, 15)
+	inventory.add_item(potato_item, 8)
+	
+	# Connect to hotbar signals
+	hotbar.item_selected.connect(_on_item_selected)
+	
+	print(\"=== Hotbar Test Scene ===\")
+	print(\"Press T to add random test items\")
+	print(\"Press C to clear inventory\")
+	print(\"Press 1-9 to select slots\")
+	print(\"Use Mouse Wheel to scroll through slots\")
+	print(\"Press Q/E for previous/next slot\")
+
+func _input(event: InputEvent) -> void:
+	# Test key to add items
+	if event.is_action_pressed(\"ui_select\"):  # T key by default
+		add_test_item()
+	
+	# Clear inventory
+	if event.is_action_pressed(\"ui_cancel\"):  # Escape key by default
+		if Input.is_key_pressed(KEY_C):
+			clear_test_inventory()
+
+func add_test_item() -> void:
+	var item = test_items[current_test_index]
+	var quantity = randi_range(1, 10)
+	
+	if inventory.add_item(item, quantity):
+		print(\"\\n[TEST] Added \", quantity, \"x \", item.item_name)
+	else:
+		print(\"\\n[TEST] Failed to add item - inventory full!\")
+	
+	current_test_index = (current_test_index + 1) % test_items.size()
+
+func clear_test_inventory() -> void:
+	inventory.clear_inventory()
+	print(\"\\n[TEST] Inventory cleared!\")
+
+func _on_item_selected(item: ItemData, slot_index: int) -> void:
+	print(\"\\n=== Item Selected ===\")
+	print(\"Slot: \", slot_index + 1)
+	if item:
+		print(\"Item: \", item.item_name)
+		print(\"Quantity: \", inventory.get_slot(slot_index).quantity)
+	else:
+		print(\"Empty slot\")
+"
+

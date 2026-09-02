@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SeedData" load_steps=3 format=3 uid="uid://potato_seed_001"]
+
+[ext_resource type="Script" path="res://scripts/seed_data.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://potato_plant_001" path="res://scenes/plants/potato_plant.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+seed_name = "Potato Seed"
+description = "A hardy potato that grows underground. Takes about 30 seconds to mature."
+icon = null
+plant_scene = ExtResource("2")
+total_growth_time = 30.0
+growth_stages = 4
+harvest_item_name = "Potato"
+harvest_amount = 3
+stage_meshes = []

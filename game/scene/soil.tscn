@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://soil_scene_001"]
+
+[ext_resource type="Script" path="res://game/scene/soil.gd" id="1_soil"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_soil"]
+size = Vector3(1, 0.1, 1)
+
+[node name="Soil" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_soil")
+script = ExtResource("1_soil")

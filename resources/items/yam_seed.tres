@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "yam_seed"
+item_name = "Yam Seed"
+item_description = "A seed for planting yam crops."
+item_icon = null
+max_stack = 64
+is_tool = false
+hand_node_name = "yam_seed_hand"

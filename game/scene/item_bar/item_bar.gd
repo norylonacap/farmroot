@@ -5,6 +5,7 @@ signal item_changed(item:ITEM_BAR_ITEM)
 @onready var slot_container: HBoxContainer = %slotContainer
 
 var itemBarInventory: Array[Resource] = []
+var currentItem: ITEM_BAR_ITEM = null
 
 func _ready() -> void:
 	_refresh()
@@ -23,9 +24,13 @@ func _set_signals():
 		slot.selected.connect(_on_slot_selected.bind(slot))
 
 func _on_slot_selected(slot):
-	item_changed.emit(slot.get_item())
+	currentItem = slot.get_item()
+	item_changed.emit(currentItem)
 
 func _set_first_focus():
 	await get_tree().process_frame
 	var selectedSlot = slot_container.get_child(0)
 	selectedSlot.grab_focus()
+
+func get_current_item() -> ITEM_BAR_ITEM:
+	return currentItem

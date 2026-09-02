@@ -1,0 +1,377 @@
+================================================================================
+           🌱 PLANTING SYSTEM - ARCHITECTURE DIAGRAM 🌱
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              MAIN SCENE STRUCTURE                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+main.tscn (Node3D Root)
+├── DayManager (Node) ⭐ [ADD THIS MANUALLY]
+│   └── Script: day_manager.gd
+│       ├── seconds_per_day: 60.0
+│       ├── current_day: int
+│       └── Signal: day_advanced(day_number)
+│
+├── Player (CharacterBody3D) [GROUP: "player"] ⭐ [ADD GROUP MANUALLY]
+│   ├── head
+│   │   └── Camera3D
+│   │       └── RayCast3D (detects soil)
+│   └── CanvasLayer
+│       ├── ItemBar (tool/seed selection)
+│       └── InteractionPrompt (Label - auto-created)
+│
+├── Grid (farming area)
+│   ├── Soil Tile 1 (MeshInstance3D)
+│   │   └── Script: soil.gd
+│   ├── Soil Tile 2 (MeshInstance3D)
+│   │   └── Script: soil.gd
+│   └── Soil Tile N (MeshInstance3D)
+│       └── Script: soil.gd
+│
+├── CanvasLayer (UI) ⭐ [OPTIONAL - ADD MANUALLY]
+│   └── FarmingInventoryUI (Control)
+│       ├── Seeds Label
+│       └── Crops Label
+│
+└── Environment (WorldEnvironment)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            SCRIPT RELATIONSHIPS                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐
+│  DayManager     │ ────────> Automatically advances all plants
+│  (day_manager   │           every "seconds_per_day"
+│  .gd)           │
+└────────┬────────┘
+         │ Finds all nodes in "plants" group
+         │
+         ├──────────────────────────────────┐
+         ↓                                  ↓
+    ┌─────────┐                        ┌─────────┐
+    │ Plant 1 │                        │ Plant N │
+    └─────────┘                        └─────────┘
+
+
+┌──────────────┐      Raycast      ┌──────────────┐
+│   Player     │ ─────────────────> │     Soil     │
+│ (player.gd)  │   detects soil     │  (soil.gd)   │
+└──────┬───────┘                    └──────┬───────┘
+       │                                   │
+       │ Q Key (with Hoe)                  │ Creates plant
+       ├───> Tills Soil ───────────────────┤
+       │                                   │
+       │ Q Key (with Seed)                 │
+       ├───> Plants Seed ──────────────────┤
+       │                                   │
+       │ E Key (on mature plant)           │ Instantiates
+       └───> Harvests Plant ───────────────┤
+                                           ↓
+                                    ┌──────────────┐
+                                    │    Plant     │
+                                    │ (plant_scene │
+                                    │   .tscn)     │
+                                    └──────┬───────┘
+                                           │
+                                           ├─> Growth Stage 1 (model)
+                                           ├─> Growth Stage 2 (model)
+                                           └─> Growth Stage 3 (model)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              DATA FLOW DIAGRAM                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────┐
+│ PLANT_       │ ──> Defines plant data:
+│ RESOURCE     │     • stageScenes: Array[PackedScene]
+│ (.tres file) │     • daysPerStage: Array[int]
+└──────┬───────┘
+       │ Referenced by
+       ↓
+┌──────────────┐
+│ ITEM_BAR_    │ ──> Seed item:
+│ ITEM         │     • itemType: SEED
+│ (seed.tres)  │     • plantResource: PLANT_RESOURCE
+└──────┬───────┘
+       │ Used by
+       ↓
+┌──────────────┐
+│   Player     │
+│  Inventory   │
+└──────┬───────┘
+       │ Plants
+       ↓
+┌──────────────┐
+│    Soil      │
+│   (tilled)   │
+└──────┬───────┘
+       │ Instantiates
+       ↓
+┌──────────────┐
+│ PlantScene   │ ──> Growth:
+│   Instance   │     Stage 0 → Stage 1 → Stage 2 → Stage 3
+└──────────────┘     (Mature & Harvestable)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            TIME PROGRESSION FLOW                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+DayManager._process(delta)
+    │
+    ├─> day_timer += delta
+    │
+    ├─> if day_timer >= seconds_per_day:
+    │       │
+    │       ├─> current_day += 1
+    │       ├─> emit day_advanced signal
+    │       │
+    │       └─> _advance_all_plants()
+    │               │
+    │               └─> get_tree().get_nodes_in_group("plants")
+    │                       │
+    │                       └─> For each plant:
+    │                               │
+    │                               └─> plant.advance_day()
+    │                                       │
+    │                                       ├─> currentStageDays += 1
+    │                                       │
+    │                                       └─> if currentStageDays >= daysPerStage[stage]:
+    │                                               │
+    │                                               └─> _instantiate_stage(nextStage)
+    │                                                       │
+    │                                                       ├─> Load next stage model
+    │                                                       └─> Play Tween animation
+    └─> day_timer = 0
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          INTERACTION STATE MACHINE                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+                    ┌─────────────┐
+                    │ Empty Soil  │
+                    └──────┬──────┘
+                           │
+             Use Hoe (Q) ──┘
+                           │
+                           ↓
+                    ┌─────────────┐
+                    │ Tilled Soil │◄────┐
+                    └──────┬──────┘     │
+                           │            │
+          Plant Seed (Q) ──┘            │ (Optional: keeps tilled)
+                           │            │
+                           ↓            │
+                    ┌─────────────┐    │
+                    │  Growing    │    │
+                    │   Plant     │    │
+                    └──────┬──────┘    │
+                           │            │
+      Time passes (auto) ──┘            │
+                           │            │
+                           ↓            │
+                    ┌─────────────┐    │
+                    │   Mature    │    │
+                    │   Plant     │    │
+                    └──────┬──────┘    │
+                           │            │
+            Harvest (E) ───┘            │
+                           │            │
+                           ↓            │
+                    ┌─────────────┐    │
+                    │ Empty Soil  │────┘
+                    │ (or Tilled) │
+                    └─────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            CLASS DEPENDENCIES                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────┐
+│ ITEM_BAR_ITEM    │ ◄──── item_resource.gd (base class)
+│ (class_name)     │       └─> enum ITEM_TYPES { HOE, WATERING_CAN, SEED }
+└────────┬─────────┘
+         │ extends
+         ↓
+┌──────────────────┐
+│ PLANT_RESOURCE   │ ◄──── plant_resource.gd (custom Resource)
+│ (class_name)     │       ├─> stageScenes: Array[PackedScene]
+└──────────────────┘       └─> daysPerStage: Array[int]
+
+
+Uses:
+┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+│  Player.gd   │ ───> │   Soil.gd    │ ───> │ PlantScene   │
+│              │      │              │      │   .gd        │
+└──────────────┘      └──────────────┘      └──────────────┘
+       │                     │                      │
+       │                     │                      │
+       └──> ITEM_BAR_ITEM    └──> PLANT_SCENE      └──> PLANT_RESOURCE
+               (.tres)              (.tscn)                 (.tres)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              SIGNAL FLOW                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+DayManager
+    │
+    └─> day_advanced(day_number) ──> DayUI updates
+    
+PlantScene
+    │
+    ├─> plant_matured() ──> Soil receives notification
+    │
+    └─> stage_changed(new_stage) ──> (can be used for VFX, SFX)
+
+Soil
+    │
+    └─> plant_harvestable(plant) ──> (can trigger notifications)
+
+ItemBar
+    │
+    └─> item_changed(item) ──> Player equips tool/seed
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         GROUP ORGANIZATION                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+"plants" Group
+    ├─> Plant Instance 1
+    ├─> Plant Instance 2
+    ├─> Plant Instance N
+    └─> Used by DayManager to advance all plants
+
+"player" Group
+    └─> Player Node
+        └─> Used by FarmingInventoryUI to find player
+
+"day_manager" Group
+    └─> DayManager Node
+        └─> Used to find time system
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           FILE STRUCTURE                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+game/
+├── scene/
+│   ├── plants/
+│   │   ├── plant_resource.gd         (Resource class)
+│   │   ├── plant_scene.gd            (Growth logic + animations)
+│   │   ├── plant_scene.tscn          (Template scene)
+│   │   ├── carrot_resource.tres      (Example plant data)
+│   │   ├── carrot_stage_1.tscn       (Visual: Seedling)
+│   │   ├── carrot_stage_2.tscn       (Visual: Growing)
+│   │   └── carrot_stage_3.tscn       (Visual: Mature)
+│   │
+│   ├── ui/
+│   │   ├── farming_inventory_ui.gd   (Inventory display)
+│   │   └── farming_inventory_ui.tscn (UI layout)
+│   │
+│   ├── player.gd                     (Interaction + Harvest)
+│   ├── soil.gd                       (Tilling + Planting)
+│   ├── day_manager.gd                (Time system)
+│   └── main.tscn                     (Main scene)
+│
+└── assets/
+    └── character/
+        └── item_resource/
+            ├── item_resource.gd      (Base item class)
+            └── carrot_seed.tres      (Seed item)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         ANIMATION PIPELINE                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Plant Stage Change:
+    │
+    ├─> _instantiate_stage(stageIndex)
+    │       │
+    │       ├─> Clear old model
+    │       ├─> Load new stage scene
+    │       └─> Call _animate_growth(stage_node)
+    │               │
+    │               ├─> stage_node.scale = Vector3(0.1, 0.1, 0.1)
+    │               │
+    │               └─> create_tween()
+    │                       │
+    │                       ├─> set_trans(TRANS_ELASTIC)
+    │                       ├─> set_ease(EASE_OUT)
+    │                       └─> tween_property(scale → Vector3.ONE, 0.5s)
+    │
+    └─> Result: Smooth pop-in growth animation
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       INVENTORY TRACKING SYSTEM                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Player Script Variables:
+    │
+    ├─> seeds_count: int = 10
+    │       │
+    │       ├─> Decreases when planting
+    │       └─> Displayed in UI
+    │
+    └─> harvested_crops: Dictionary = {}
+            │
+            ├─> {"carrot": 5, "tomato": 3}
+            └─> Displayed in UI
+
+Flow:
+    Plant Seed ──> seeds_count -= 1 ──> Update UI
+    Harvest ──────> crops["carrot"] += 1 ──> Update UI
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          VISUAL FEEDBACK SYSTEM                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Raycast Hits Soil:
+    │
+    ├─> soil.set_selection(true)
+    │       │
+    │       └─> _highlight_soil()
+    │               │
+    │               ├─> Lighten albedo color
+    │               └─> Add emission glow
+    │
+    └─> soil.get_interaction_prompt()
+            │
+            ├─> "Press Q (Hoe) to Till"
+            ├─> "Press Q to Plant"
+            ├─> "Growing (Stage 2)"
+            └─> "Press E to Harvest"
+                    │
+                    └─> Display in InteractionPrompt Label
+
+
+================================================================================
+                          🎯 SYSTEM COMPLETE! 🎯
+================================================================================
+
+All components work together to create a seamless plant-growing experience!
+
+Key Features:
+✅ Modular architecture
+✅ Signal-based communication
+✅ Resource-driven design
+✅ Automatic time management
+✅ Smooth animations
+✅ Clear visual feedback
+✅ Easy to extend
+
+For setup instructions, see: SETUP_INSTRUCTIONS.md
+For full documentation, see: COMPLETE_PLANTING_SYSTEM_GUIDE.md
+
+Happy Farming! 🌱🥕🍅🥔
+================================================================================

@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://bekupmprf8xf3" path="res://game/scene/player.gd" id="1_33lhc"]
 [ext_resource type="PackedScene" uid="uid://vg3o6bmbuj0n" path="res://game/scene/view_model.tscn" id="2_aouss"]
 [ext_resource type="PackedScene" uid="uid://by7mkyg56ijnv" path="res://game/scene/item_bar/item_bar.tscn" id="3_pm1tv"]
+[ext_resource type="Script" uid="uid://debvh50isogbr" path="res://game/scene/inventory.gd" id="4_5nuve"]
+[ext_resource type="Script" uid="uid://csp0get0qo0vp" path="res://game/scene/equipment_manager.gd" id="5_llpmk"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_aouss"]
 radius = 0.35
@@ -42,3 +44,9 @@ target_position = Vector3(0, 0, 1)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1601325291]
 
 [node name="ItemBar" parent="CanvasLayer" unique_id=1772325645 instance=ExtResource("3_pm1tv")]
+
+[node name="Inventory" type="Node" parent="." unique_id=1470413465]
+script = ExtResource("4_5nuve")
+
+[node name="EquipmentManager" type="Node" parent="." unique_id=1642166506]
+script = ExtResource("5_llpmk")

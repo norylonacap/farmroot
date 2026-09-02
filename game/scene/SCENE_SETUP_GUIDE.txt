@@ -1,0 +1,193 @@
+PLANTING SYSTEM - SCENE SETUP GUIDE
+=====================================
+
+Add these nodes to your main.tscn scene:
+
+Main Scene (Node3D or Node)
+│
+├─── Player (CharacterBody3D) ✓ Already exists
+│    ├─── head
+│    │    └─── Camera3D
+│    │         └─── RayCast3D ✓ Already exists
+│    └─── CanvasLayer
+│         └─── ItemBar ✓ Already exists
+│
+├─── Environment ✓ Already exists
+│
+├─── Ground/Field ✓ Already exists
+│    └─── Soil tiles (MeshInstance3D) ✓ Already exists
+│         [soil.gd script attached]
+│
+├─── DayManager (Node) ⬅️ ADD THIS!
+│    [Attach: day_manager.gd]
+│    [Set in Inspector: seconds_per_day = 60.0]
+│
+└─── UI (CanvasLayer or Control)
+     ├─── ItemBar ✓ Already exists
+     │
+     ├─── DayCounter (Label) ⬅️ OPTIONAL
+     │    [Attach: day_ui.gd]
+     │    [Set: day_manager_path to DayManager node]
+     │    [Position: Top-right corner]
+     │
+     └─── PlantDebug (Label) ⬅️ OPTIONAL (for testing)
+          [Attach: plant_debug_ui.gd]
+          [Set: player_path to Player node]
+          [Position: Bottom-left corner]
+
+=====================================
+ITEM BAR CONFIGURATION
+=====================================
+
+Select: ItemBar node
+In Inspector:
+  └─── Script Variables
+       └─── itemBarInventory (Array)
+            [0] hoe_item.tres ✓ Already exists
+            [1] watering_can_item.tres (if you have it)
+            [2] carrot_seed.tres ⬅️ ADD THIS!
+            [3] (empty or more items)
+
+=====================================
+VISUAL LAYOUT SUGGESTION
+=====================================
+
+┌─────────────────────────────────────────┐
+│  Day: 5                                 │ ← DayCounter (Label)
+│                                         │
+│                                         │
+│              [Game View]                │
+│                                         │
+│                                         │
+│  🌱 Plant Info                          │ ← PlantDebug (optional)
+│  Stage: 2/3                             │
+│  Days: 1/3                              │
+│                                         │
+├─────────────────────────────────────────┤
+│  [Hoe] [Water] [Seed] [ ] [ ] [ ]      │ ← ItemBar (already exists)
+└─────────────────────────────────────────┘
+
+=====================================
+STEP-BY-STEP SETUP
+=====================================
+
+1. OPEN main.tscn in Godot Editor
+
+2. ADD DAY MANAGER:
+   - Right-click on root node
+   - Add Child Node → Node
+   - Rename to "DayManager"
+   - In Inspector, click [Script] dropdown
+   - Click "Load" → Navigate to: game/scene/day_manager.gd
+   - Set "Seconds Per Day" to 60.0
+
+3. ADD DAY COUNTER UI (Optional):
+   - Find or create a CanvasLayer for UI
+   - Add Child Node → Label
+   - Rename to "DayCounter"
+   - In Inspector:
+     * Position: (top-right)
+     * Text: "Day: 1"
+     * Font Size: 24
+     * Attach script: game/scene/day_ui.gd
+     * Set "Day Manager Path": ../DayManager (or full path)
+
+4. ADD CARROT SEED TO INVENTORY:
+   - Select ItemBar node
+   - In Inspector, find "itemBarInventory" array
+   - Increase size by 1
+   - In new slot, click [empty] dropdown
+   - Click "Load" → Navigate to:
+     game/assets/character/item_resource/carrot_seed.tres
+
+5. VERIFY PLAYER SCRIPT:
+   - Select Player node
+   - Verify script is attached: game/scene/player.gd
+   - Should already have updated planting code
+
+6. VERIFY SOIL SCRIPT:
+   - Select a Soil tile
+   - Verify script is attached: game/scene/soil.gd
+   - Should already have planting code
+
+7. TEST THE GAME:
+   - Press F5 to run
+   - Press 1/2/3 to select items
+   - Press Q on ground to till (with hoe)
+   - Press Q on tilled soil to plant (with seed)
+   - Wait for plant to grow
+
+=====================================
+TESTING CHECKLIST
+=====================================
+
+Before running the game, verify:
+
+□ DayManager node exists in scene
+□ day_manager.gd script attached to DayManager
+□ DayCounter label exists (optional but recommended)
+□ day_ui.gd attached to DayCounter
+□ carrot_seed.tres added to itemBarInventory
+□ player.gd is updated (should be automatic)
+□ soil.gd is updated (should be automatic)
+□ Input map has "actionQ" defined
+
+In-game test:
+□ Can select hoe with number keys
+□ Can till soil with Q key
+□ Can select seed with number keys
+□ Can plant seed on tilled soil with Q
+□ Day counter increments
+□ Plant appears after planting
+□ Plant grows through stages (wait ~60 seconds per day)
+
+=====================================
+FAST TESTING SETUP
+=====================================
+
+For quick testing (full growth in 15 seconds):
+
+1. Select DayManager node
+2. In Inspector, set:
+   seconds_per_day = 5
+
+3. Open: game/scene/plants/carrot_resource.tres
+4. In Inspector, set:
+   daysPerStage = [1, 1, 1]
+
+5. Test again - plant should grow fully in 15 seconds!
+
+=====================================
+SCENE HIERARCHY COMPARISON
+=====================================
+
+BEFORE (your current scene):
+Main
+├─── Player
+├─── Environment
+└─── Field
+     └─── Soil tiles
+
+AFTER (with planting system):
+Main
+├─── Player
+├─── Environment
+├─── Field
+│    └─── Soil tiles
+│         └─── PlantScene (spawned at runtime)
+│              └─── model
+│                   └─── carrot_stage_1 (runtime)
+├─── DayManager ⬅️ NEW
+└─── UI
+     ├─── ItemBar
+     ├─── DayCounter ⬅️ NEW (optional)
+     └─── PlantDebug ⬅️ NEW (optional)
+
+=====================================
+
+Questions? Check these files:
+- QUICK_REFERENCE.md
+- INTEGRATION_STEPS.md
+- PLANTING_SYSTEM_GUIDE.md
+
+Happy farming! 🌱

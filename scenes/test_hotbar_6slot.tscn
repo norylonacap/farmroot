@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://b8yv5vwjbp74i"]
+
+[ext_resource type="Script" path="res://scripts/inventory.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://dny7a3yxdgwji" path="res://scenes/ui/hotbar.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/equipment_manager.gd" id="3"]
+
+[node name="TestHotbar6Slot" type="Node"]
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("1")
+
+[node name="EquipmentManager" type="Node" parent="."]
+script = ExtResource("3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hotbar" parent="CanvasLayer" instance=ExtResource("2")]
+inventory = NodePath("../../Inventory")
+
+[node name="TestController" type="Node" parent="."]
+
+[sub_resource type="GDScript" id="GDScript_test6"]
+script/source = "extends Node
+
+## Test controller for 6-slot hotbar with farming items
+## Press T to add/modify item quantities
+## Press C to clear inventory
+
+@onready var inventory: Inventory = $\"../Inventory\"
+@onready var hotbar: Hotbar = $\"../CanvasLayer/Hotbar\"
+@onready var equipment_manager: EquipmentManager = $\"../EquipmentManager\"
+
+# Preload items
+var yam_seed_item: ItemData = preload(\"res://resources/items/yam_seed.tres\")
+var potato_seed_item: ItemData = preload(\"res://resources/items/potato_seed.tres\")
+var casava_seed_item: ItemData = preload(\"res://resources/items/casava_seed.tres\")
+var rake_item: ItemData = preload(\"res://resources/items/rake.tres\")
+var fork_item: ItemData = preload(\"res://resources/items/fork.tres\")
+var hoe_item: ItemData = preload(\"res://resources/items/hoe.tres\")
+
+func _ready() -> void:
+	# Setup starting inventory
+	inventory.set_slot(0, yam_seed_item, 10)
+	inventory.set_slot(1, potato_seed_item, 15)
+	inventory.set_slot(2, casava_seed_item, 8)
+	inventory.set_slot(3, rake_item, 1)
+	inventory.set_slot(4, fork_item, 1)
+	inventory.set_slot(5, hoe_item, 1)
+	
+	# Connect to hotbar signals
+	hotbar.item_selected.connect(_on_item_selected)
+	
+	# Note: Equipment manager won't have actual hand nodes in this test
+	# It would be connected in the real player scene
+	
+	print(\"=== 6-Slot Hotbar Test Scene ===\")
+	print(\"Press T to add seed quantities\")
+	print(\"Press C to clear inventory\")
+	print(\"Press 1-6 to select slots\")
+	print(\"Use Mouse Wheel to scroll through slots\")
+	print(\"Press Q/E for previous/next slot\")
+	print(\"\")
+	print(\"Slot 1: Yam Seed x10\")
+	print(\"Slot 2: Potato Seed x15\")
+	print(\"Slot 3: Casava Seed x8\")
+	print(\"Slot 4: Rake (tool)\")
+	print(\"Slot 5: Fork (tool)\")
+	print(\"Slot 6: Hoe (tool)\")
+
+func _input(event: InputEvent) -> void:
+	# Test key to add seeds
+	if event.is_action_pressed(\"ui_select\"):  # T key
+		add_test_seeds()
+	
+	# Clear inventory
+	if event.is_action_pressed(\"ui_cancel\"):  # Escape
+		if Input.is_key_pressed(KEY_C):
+			clear_test_inventory()
+
+func add_test_seeds() -> void:
+	var seed_items = [yam_seed_item, potato_seed_item, casava_seed_item]
+	var random_seed = seed_items[randi() % seed_items.size()]
+	var quantity = randi_range(1, 10)
+	
+	if inventory.add_item(random_seed, quantity):
+		print(\"\\n[TEST] Added \", quantity, \"x \", random_seed.item_name)
+	else:
+		print(\"\\n[TEST] Failed to add item - inventory full!\")
+
+func clear_test_inventory() -> void:
+	inventory.clear_inventory()
+	print(\"\\n[TEST] Inventory cleared!\")
+
+func _on_item_selected(item_id: String, slot_index: int) -> void:
+	print(\"\\n=== Item Selected ===\")
+	print(\"Slot: \", slot_index + 1)
+	print(\"Item ID: \", item_id if not item_id.is_empty() else \"None\")
+	
+	var item_data = hotbar.get_selected_item()
+	if item_data:
+		print(\"Item Name: \", item_data.item_name)
+		if not item_data.is_tool:
+			print(\"Quantity: \", inventory.get_slot(slot_index).quantity)
+		else:
+			print(\"Type: Tool (no quantity)\")
+"
+
+[node name="TestController" script=SubResource("GDScript_test6")]

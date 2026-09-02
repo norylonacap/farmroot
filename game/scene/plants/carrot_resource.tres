@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PLANT_RESOURCE" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://game/scene/plants/plant_resource.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://b7x8k9m2n3p4q" path="res://game/scene/plants/carrot_stage_1.tscn" id="2_stage1"]
+[ext_resource type="PackedScene" uid="uid://c8y9l0m3n4p5r" path="res://game/scene/plants/carrot_stage_2.tscn" id="3_stage2"]
+[ext_resource type="PackedScene" uid="uid://d9z0m1n4p5q6s" path="res://game/scene/plants/carrot_stage_3.tscn" id="4_stage3"]
+
+[resource]
+script = ExtResource("1_script")
+stageScenes = Array[PackedScene]([ExtResource("2_stage1"), ExtResource("3_stage2"), ExtResource("4_stage3")])
+daysPerStage = Array[int]([2, 3, 4])
