@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://vg3o6bmbuj0n"]
-
-[ext_resource type="Script" uid="uid://dm30jx2lt3udu" path="res://game/scene/view_model.gd" id="1_rrgp2"]
-
-[node name="view_model_camera" type="Camera3D" unique_id=154956388]
-script = ExtResource("1_rrgp2")
-
-[node name="fps_rig" type="Node3D" parent="." unique_id=1156154220]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03678024, -0.03575027)
